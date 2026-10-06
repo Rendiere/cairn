@@ -1,0 +1,16 @@
+{
+  "name": "cairn",
+  "owner": {
+    "name": "Renier Botha"
+  },
+  "plugins": [
+    {
+      "name": "cairn",
+      "source": "./",
+      "description": "Study, interview and weekly sweep for a two-vault second brain."
+    }
+  ],
+  "metadata": {
+    "description": "Personal marketplace for the cairn second-brain plugin."
+  }
+}
