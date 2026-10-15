@@ -7,10 +7,10 @@
     {
       "name": "cairn",
       "source": "./",
-      "description": "Study, interview and weekly sweep for a two-vault second brain."
+      "description": "Setup, study, interview and periodic sweep for a second brain in one or two git vaults."
     }
   ],
   "metadata": {
-    "description": "Personal marketplace for the cairn second-brain plugin."
+    "description": "Marketplace for the cairn second-brain plugin."
   }
 }

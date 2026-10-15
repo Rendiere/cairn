@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Rejects staged content matching the current company's guard terms; fails closed when none are configured.
+set -euo pipefail
+root=$(git rev-parse --show-toplevel)
+conf="$root/.company"
+[ -f "$conf" ] || { echo "pre-commit: $conf missing; set guard_terms=<path> before committing" >&2; exit 1; }
+terms=$(sed -n 's/^guard_terms=//p' "$conf")
+[ -f "$terms" ] || { echo "pre-commit: guard terms file '$terms' not found" >&2; exit 1; }
+pattern=$(grep -v -e '^#' -e '^[[:space:]]*$' "$terms" | paste -sd '|' -)
+[ -n "$pattern" ] || { echo "pre-commit: guard terms file is empty" >&2; exit 1; }
+hits=$( { git diff --cached --name-only --diff-filter=ACMR; git diff --cached -U0 --diff-filter=ACMR | grep '^+' | grep -v '^+++'; } | grep -inE "$pattern" || true)
+if [ -n "$hits" ]; then
+  echo "pre-commit: company terms found in staged changes:" >&2
+  echo "$hits" | head -20 >&2
+  exit 1
+fi
