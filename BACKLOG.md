@@ -7,16 +7,16 @@ Status is one of `doing`, `todo`, `blocked`, `parked`, `done`.
 
 | # | Item | Status |
 |---|---|---|
-| 1 | Per-machine config and `/cairn:setup` | doing |
+| 1 | Per-machine config and `/cairn:setup` | done |
 | 2 | Vault scaffolding shipped in the plugin | done |
 | 3 | Skills read the config instead of hardcoded names and paths | done |
 | 4 | Install from GitHub instead of a local path | doing |
 | 5 | Codex support | parked |
-| 6 | Existing knowledge base as a read-only source | doing |
-| 7 | Review cadence: daily, weekly or monthly | doing |
-| 8 | Lock-in rules that stop the interview loop | todo |
+| 6 | Existing knowledge base as a read-only source | done |
+| 7 | Review cadence: daily, weekly or monthly | done |
+| 8 | Lock-in rules that stop the interview loop | done |
 | 9 | More source types | todo |
-| 10 | Fresh-machine smoke test | todo |
+| 10 | Fresh-machine smoke test | done |
 | 11 | Public release | todo |
 
 ## 1. Per-machine config and `/cairn:setup`
@@ -49,7 +49,7 @@ A new user has no vault to copy. The plugin ships `vault/portable/`, `vault/comp
 Decided (2026-10-15): the note-writing rules live once in the plugin, and every skill reads them there.
 A vault does not carry a copy. Its `README.md` says what the vault holds, and its `CLAUDE.md` and
 `AGENTS.md` say only that notes are written through cairn's skills, for agents that open the vault
-without cairn. The shipped READMEs still contain the rules and need cutting down.
+without cairn. Done in 0.3.0: the rules are in `shared/rules.md`.
 
 ## 3. Skills read the config
 
@@ -92,7 +92,7 @@ of old topics would surface each time.
 
 Setup records `[cadence] every` (daily, weekly, monthly) and a slot, and offers to create a recurring
 calendar event when a calendar tool is available. The sweep uses the cadence for its default window.
-Still open: two sweeps in one day overwrite the same record file.
+Sweep records carry the time (`YYYY-MM-DD-HHMM-sweep.md`), so two sweeps in one day keep separate records.
 
 Decided (2026-10-15): the session's size matches the cadence. The user picks each slot at setup.
 
@@ -124,8 +124,10 @@ missing: Outlook and Teams, Notion, Apple Notes, Otter, Fireflies.
 
 ## 10. Fresh-machine smoke test
 
-A script that runs setup headless in a throwaway `HOME` against a temp vault and checks the result:
-config written, hook rejects a guard term, `general/` resolves, templates present.
+`scripts/smoke.sh` runs setup headless in throwaway folders (with `$CAIRN_CONFIG` pointing there) for a
+one-vault and a two-vault layout and checks the result: config written, `cairn.toml` in each vault,
+templates and `.gitkeep` present, `general/` resolves, the hook rejects a guard term and passes a clean
+line. It does not cover study, interview or sweep, which need an owner answering.
 
 ## 11. Public release
 
