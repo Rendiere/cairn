@@ -3,7 +3,7 @@
 Goal: anyone can install cairn in Claude Code or Codex on a new machine, run `/cairn:setup`, and have
 working vaults, sources and a review cadence without editing a file by hand.
 
-Status is one of `doing`, `todo`, `blocked`, `done`.
+Status is one of `doing`, `todo`, `blocked`, `parked`, `done`.
 
 | # | Item | Status |
 |---|---|---|
@@ -11,7 +11,7 @@ Status is one of `doing`, `todo`, `blocked`, `done`.
 | 2 | Vault scaffolding shipped in the plugin | done |
 | 3 | Skills read the config instead of hardcoded names and paths | done |
 | 4 | Install from GitHub instead of a local path | doing |
-| 5 | Codex support | todo |
+| 5 | Codex support | parked |
 | 6 | Existing knowledge base as a read-only source | doing |
 | 7 | Review cadence: daily, weekly or monthly | doing |
 | 8 | Lock-in rules that stop the interview loop | todo |
@@ -64,8 +64,11 @@ private this needs GitHub access to it.
 
 ## 5. Codex support
 
-Decided (2026-10-15): Claude Code and Codex are both fully supported from the same skill files. A
-source whose tool is missing on the host is skipped with a note. Other agents may work, with no promise.
+Decided (2026-10-15): Claude Code and Codex are both fully supported from the same skill files.
+Parked (2026-10-16): cairn targets Claude Code only for now. The skills keep to standard frontmatter
+(`name`, `description`) so this stays open. Facts gathered for it: Codex loads `SKILL.md` skills from
+`~/.agents/skills` and `~/.codex/skills`, has no plugin-root path variable, and writes sessions to
+`~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl` (compressed to `.jsonl.zst` after 7 days).
 
 - Install path: Codex reads `SKILL.md` skills from its own skills directory; document or script linking
   `skills/*` there, and confirm the directory against current Codex docs.
