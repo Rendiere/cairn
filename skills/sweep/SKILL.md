@@ -1,6 +1,6 @@
 ---
 name: sweep
-description: Scheduled review of the owner's recent work against their notes. Runs the daily, weekly or monthly flow set in the portable vault's cairn.toml, reads the configured sources (Claude Code sessions, meeting notes, Slack, transcript folders) for at most the last 1, 7 or 30 days, finds topics with no note, ranks them fundamentals first, and discusses the top few. A sweep writes queue items, confirmed depends links into existing notes, read-back edits, and a sweep record in the home vault's interviews/. The daily flow parks two gaps and hands off one queue item or runs one read-back; the weekly flow may run one /cairn:study or /cairn:interview; the monthly flow adds three read-backs and a check of the month's notes for contradictions and missing links. Use when they type /cairn:sweep, optionally with daily, weekly or monthly, say "weekly review", "daily review", "brain review", "what did I miss this week", or at their sweep slot.
+description: Scheduled review of the owner's recent work against their notes. Runs the daily, weekly or monthly flow set in the vault's cairn.toml, reads the configured sources (Claude Code sessions, meeting notes, Slack, transcript folders) for at most the last 1, 7 or 30 days, finds topics with no note, ranks them fundamentals first, and discusses the top few. A sweep writes queue items, confirmed depends links into existing notes, read-back edits, and a sweep record in interviews/. The daily flow parks two gaps and hands off one queue item or runs one read-back; the weekly flow may run one /cairn:study or /cairn:interview; the monthly flow adds three read-backs and a check of the month's notes for contradictions and missing links. Use when they type /cairn:sweep, optionally with daily, weekly or monthly, say "weekly review", "daily review", "brain review", "what did I miss this week", or at their sweep slot.
 ---
 
 # Sweep
@@ -14,7 +14,7 @@ confirmed `depends:` links into existing notes, and any read-back edits; the not
 
 ## Flows
 
-Each flow's time limit is its cadence's `minutes` in the portable vault's `cairn.toml`.
+Each flow's time limit is its cadence's `minutes` in `cairn.toml`.
 
 | Flow | Window | Steps run | What it ends with |
 |---|---|---|---|
@@ -34,13 +34,13 @@ how many were left out.
 
 ## Steps
 
-1. **Open.** Run `date +%H:%M`. Read the machine file and each vault's `cairn.toml`. Pick the flow: the
+1. **Open.** Run `date +%H:%M`. Read the machine file and `cairn.toml`. Pick the flow: the
    one the owner named, else the one cadence with `enabled = true`; when several are enabled, ask once
    which; when none is, use weekly at 30 minutes. State the flow and its time limit. The window ends now
-   and starts at the later of two times: the newest file in the home vault's `interviews/` whose name
+   and starts at the later of two times: the newest file in `interviews/` whose name
    parses as `YYYY-MM-DD-HHMM-sweep.md`, and now minus the flow's window, so a missed sweep never widens
-   it. Then create `interviews/YYYY-MM-DD-HHMM-sweep.md` in the home vault holding the flow and the
-   window. With no `[sources.*]` other than `kb`, append "no sources", commit, and end with the line "No
+   it. Then create `interviews/YYYY-MM-DD-HHMM-sweep.md`, with the company tag when an employer is set,
+   holding the flow and the window. With no `[sources.*]` other than `kb`, append "no sources", commit, and end with the line "No
    sources configured, nothing to sweep; record at <path>. Run /cairn:setup to add one, or say read-back
    for a 5-minute read-back." Otherwise create the resume item `queue/resume-sweep-YYYY-MM-DD-HHMM.md`
    from `templates/queue.md` listing the steps left; after each later step, take that step off the list.
@@ -68,9 +68,9 @@ how many were left out.
    each (session title, meeting title, channel, file name). Never copy wording from meetings, Slack or
    transcript files: those are other people's words, and only topic names leave this step. Append the
    topics with signal to the record. Done when every topic has a signal and pointers.
-4. **Route.** Give each topic a vault and a note type by the routing test and the vault rules. Done when
-   each topic has one vault and one type.
-5. **Subtract.** In both vaults, check filenames and titles in every folder listed in `note-types.md`,
+4. **Type.** Give each topic a note type from `note-types.md`, and mark it a company topic or general as
+   "Company topics" in `rules.md` says. Done when each topic has one type and one mark.
+5. **Subtract.** Check filenames and titles in every folder listed in `note-types.md`,
    plus `queue/` and `study/`. Drop a topic whose note is `defensible`, or whose open queue item or study
    pack was changed in the window. Keep a `draft` note's topic as a partial. Then check filenames and
    headings under each `[sources.kb]` path: a match never drops a topic; tag it "in your KB" with the file
@@ -83,30 +83,30 @@ how many were left out.
    and queue items, and your own judgement where none exists; every guessed link is a proposal. Its
    dependents are the other topics, remaining or existing, that depend on it; its depth is the longest
    chain of `depends` beneath it. Done when every topic has dependents and depth.
-7. **Rank.** Within each vault, order by dependents, most first; then depth, shallowest first; then
+7. **Rank.** Order by dependents, most first; then depth, shallowest first; then
    signal, highest first. A topic listed as skipped in the previous sweep record drops below every topic
-   that was not. Append each ranked list with signal, dependents and depth to the record. Done when each
-   vault's list is ordered.
+   that was not. Append the ranked list with signal, dependents and depth to the record. Done when the list
+   is ordered.
 8. **Synthesis check.** Weekly and monthly only. A topic that names how ideas combine in a specific
    setting is a synthesis candidate. List its parts. If every part has a note, it is ready for
    `/cairn:interview`; otherwise its missing parts join the ranking as prerequisites. Append the candidates
    to the record. Done when every candidate is ready or gated.
-9. **Discuss.** Daily: show the top two topics across both vaults, each with where it came up and any "in
+9. **Discuss.** Daily: show the top two topics, each with where it came up and any "in
    your KB" tag, and their proposed links, and ask whether to park both as queue items. Weekly and
-   monthly: show two topics per vault (four with one vault), each with where it came up and any "in your
+   monthly: show the top four topics, each with where it came up and any "in your
    KB" tag, plus one line per synthesis candidate. Ask which to take on; then, one pick per turn, how: a
    queue item, or (weekly only, one pick at most) a `/cairn:study` or `/cairn:interview` run now. Then
    show every proposed link once and ask which to keep. Append each answer to the record as it comes. Done
    when every shown topic is picked or skipped and every proposed link is kept or dropped.
 10. **Act.** Write a queue item `learn-<topic-slug>` from `templates/queue.md` for each pick not run now,
-    in the vault the Queue rules name, with `depends:` set to its kept links, and add a link to it under
+    with the company tag when it touches a company note, with `depends:` set to its kept links, and add a link to it under
     "Going deeper" in each existing note it touches. Write kept links into the `depends:` frontmatter of
     existing notes. Weekly: run at most one study or interview now. Daily and monthly never start one.
     Append each file written to the record. Done when every pick has a file or has run.
 11. **Read-back.** Daily: offer one choice, one question: close an open queue item noted in step 5 (end
     by naming `/cairn:interview close <item>`, do not start it) or a 5-minute read-back. Weekly: one
-    read-back. Monthly: three read-backs, then the month check: read the notes changed in either vault in
-    the window and list pairs that contradict each other and notes that name a topic with a note but do
+    read-back. Monthly: three read-backs, then the month check: read the notes changed in the
+    window and list pairs that contradict each other and notes that name a topic with a note but do
     not link to it; each contradiction becomes a queue item touching both notes, and each missing link is
     proposed as a `depends:` link and written if the owner keeps it. A read-back picks a `defensible`
     note, quotes its "In one sentence" (or its first required heading), and asks "does this still sound
@@ -115,8 +115,8 @@ how many were left out.
     result to the record. Done when every read-back has an answer and, monthly, the check is in the record.
 12. **Record.** Append what was picked and how, a `## Skipped` list of skipped topics, and the next
     command, and close the resume item. Topic names and source titles only, no quotes. Commit and push
-    each changed vault as "Commit and push" says, with message `sweep: YYYY-MM-DD`. End with the line
-    Session state rule 3 asks for. Done when every changed vault is committed and the line is said.
+    the vault as "Commit and push" says, with message `sweep: YYYY-MM-DD`. End with the line Session
+    state rule 3 asks for. Done when the vault is committed and the line is said.
 
 Run `date +%H:%M` after every step. When the flow's time limit is reached, finish the current step,
 commit with the resume item still open, and end with the closing line, naming `/cairn:sweep` to pick up.

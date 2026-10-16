@@ -7,7 +7,7 @@
     {
       "name": "cairn",
       "source": "./",
-      "description": "Setup, study, interview and a daily, weekly or monthly sweep for notes in your own words, in one or two git vaults."
+      "description": "Setup, study, interview and a daily, weekly or monthly sweep for notes in your own words, in one private git vault."
     }
   ],
   "metadata": {

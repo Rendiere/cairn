@@ -1,5 +1,6 @@
 ---
 type: queue
+company:
 depends: []
 status: open
 tags: []

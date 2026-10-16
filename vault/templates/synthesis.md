@@ -1,5 +1,6 @@
 ---
 type: synthesis
+company:
 status: draft
 depends: []
 interviewed: []

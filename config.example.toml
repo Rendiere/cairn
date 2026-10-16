@@ -1,14 +1,8 @@
 # cairn's machine config: what is true of this machine only. /cairn:setup writes it to
 # ~/.config/cairn/config.toml ($CAIRN_CONFIG overrides). Never committed.
-# Owner, cadence and company live in each vault's cairn.toml; see vault/cairn.example.toml.
+# Owner, employer and cadence live in the vault's cairn.toml; see vault/cairn.example.toml.
 
-[vaults]
-portable = "~/brain"
-
-# Zero or more, only when there is an employer. At most one has archived = false: the active company vault.
-[[vaults.company]]
-path = "~/work/brain"
-archived = false
+vault = "~/brain"
 
 # A source not listed here is skipped by /cairn:sweep. {start} is replaced with the window's start date.
 [sources.claude_code]

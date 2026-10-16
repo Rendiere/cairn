@@ -21,30 +21,27 @@ Status is one of `doing`, `todo`, `blocked`, `parked`, `done`.
 
 ## 1. Per-machine config and `/cairn:setup`
 
-Machine-specific state lived in places a clone does not bring along: absolute paths in the company
-vault's `cairn.toml`, an untracked `.company` file, a gitignored `general/` symlink, and
-`core.hooksPath`, which is local git config. On a fresh clone the employer-term hook is off and nothing
-says so. `/cairn:setup` writes `~/.config/cairn/config.toml` (or `$CAIRN_CONFIG`) and recreates every
-piece of local state, and running it again checks and repairs them. It imports an existing `cairn.toml`.
+`/cairn:setup` writes `~/.config/cairn/config.toml` (or `$CAIRN_CONFIG`), and running it again checks
+and repairs the setup. It imports older layouts after showing every change.
 
 Decided (2026-10-15): the config splits so a second machine does not re-ask everything. Facts about the
-owner travel through git in the vault's `cairn.toml`: owner name, cadence, company. The guard terms live
-in the company vault, because putting the employer's names in the portable vault would push them into
-the personal repo, which the guard exists to stop. `~/.config/cairn/config.toml` holds only what is
-true of one machine: vault paths and which sources it has. Setup on a second machine asks where the
-vaults are cloned and which sources exist.
+owner travel through git in the vault's `cairn.toml`: owner name, current employer, cadence.
+`~/.config/cairn/config.toml` holds only what is true of one machine: the vault's path and which sources
+it has. Setup on a second machine asks where the vault is cloned and which sources exist.
 
-Decided (2026-10-15): one active company vault at a time. A former employer's vault is archived:
-read-only, and kept in the local config marked `archived = true`. The guard hook reads terms from every
-listed company vault, archived or not, so a former employer's names stay blocked in the portable vault.
-The cost is keeping archived vaults cloned on every machine; this beat copying terms to a local-only
-file (lost on a new machine) and storing hashed terms in the portable vault (short names can be
-brute-forced). Several active company vaults (contractors, side businesses) wait until someone asks.
+Decided (2026-10-16): one vault, with employer notes tagged. Each owner has a single private vault.
+Notes about the current employer's systems, projects and people carry `company: <employer>` in their
+frontmatter, and general notes never link to them. On a change of job, setup lists the old employer's
+tagged files and the owner keeps or deletes them. This beat the 0.3.0 design of a portable vault plus
+one company vault per employer, nested at `general/` and protected by a pre-commit hook that rejected
+the employer's names: that split was a third of setup and the shared rules, and it guarded against
+something a private vault holding only the owner's own words does not need. The cost is that a
+company's notes now live in the owner's personal repo until the owner deletes them.
 
 ## 2. Vault scaffolding shipped in the plugin
 
-A new user has no vault to copy. The plugin ships `vault/portable/`, `vault/company/` and
-`vault/templates/`, which setup copies into a new vault and fills with the owner's name.
+A new user has no vault to copy. The plugin ships `vault/scaffold/` and `vault/templates/`, which setup
+copies into a new vault and fills with the owner's name.
 
 Decided (2026-10-15): the note-writing rules live once in the plugin, and every skill reads them there.
 A vault does not carry a copy. Its `README.md` says what the vault holds, and its `CLAUDE.md` and
@@ -54,8 +51,7 @@ without cairn. Done in 0.3.0: the rules are in `shared/rules.md`.
 ## 3. Skills read the config
 
 The skills named the owner and his paths, and the study skill named an employer's internal tool. Each
-skill now reads the config for the owner's name, the vaults and the sources. With one vault, every note
-type, transcript and sweep record lands in it, and there is no guard hook.
+skill now reads the config for the owner's name, the employer, the vault and the sources.
 
 ## 4. Install from GitHub
 
@@ -124,14 +120,13 @@ missing: Outlook and Teams, Notion, Apple Notes, Otter, Fireflies.
 
 ## 10. Fresh-machine smoke test
 
-`scripts/smoke.sh` runs setup headless in throwaway folders (with `$CAIRN_CONFIG` pointing there) for a
-one-vault and a two-vault layout and checks the result: config written, `cairn.toml` in each vault,
-templates and `.gitkeep` present, `general/` resolves, the hook rejects a guard term and passes a clean
-line. It does not cover study, interview or sweep, which need an owner answering.
+`scripts/smoke.sh` runs setup headless in throwaway folders (with `$CAIRN_CONFIG` pointing there) for an
+owner without and with an employer and checks the result: config written, `cairn.toml` naming the owner
+and the employer, every template and `.gitkeep` present, no leftover files from older layouts. It does not cover study, interview or sweep, which need an owner answering.
 
 ## 11. Public release
 
 The repo stays at `Rendiere/cairn`, so it links to its author. No IP release is needed, because cairn
 holds only the plugin and never any employer's information. Before making it public: scan the full git
-history against the owner's guard terms, add a local pre-push hook in this repo that runs the same scan,
+history for employer names, add a local pre-push hook in this repo that runs the same scan,
 add a licence, and write the README for strangers.

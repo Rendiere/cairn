@@ -1,5 +1,6 @@
 ---
 type: person
+company:
 status: draft
 depends: []
 interviewed: []

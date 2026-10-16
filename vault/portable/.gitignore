@@ -1,6 +1,0 @@
-.company
-labs/*/*.csv
-labs/*/*.parquet
-labs/*/*.duckdb
-.obsidian/workspace*.json
-.DS_Store

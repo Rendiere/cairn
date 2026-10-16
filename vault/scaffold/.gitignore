@@ -1,4 +1,3 @@
-general
 labs/*/*.csv
 labs/*/*.parquet
 labs/*/*.duckdb

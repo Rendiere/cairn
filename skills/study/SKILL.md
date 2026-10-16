@@ -18,14 +18,14 @@ One topic, taught hands-on in at most 20 minutes, ending in a reading list and a
   screenshots.
 - `labs/<lab>/`, only when a step needs a lab built or extended. Study creates `labs/` on first use.
 
-A topic's pack and labs go in the vault the routing test picks. A portable topic uses public sources
-only; a company topic may also draw on internal ones.
+A general topic uses public sources only. A company topic may also draw on the employer's internal ones,
+and its pack's `README.md` carries the company tag.
 
 ## Steps
 
 1. **Open.** Run `date +%H:%M` and state the 20-minute limit with its end time. Read the machine file
-   and each vault's `cairn.toml`. Name the slug, the same one the note will take, and the vault by the
-   routing test. If the argument is a queue item, its question is the whole scope. If
+   and `cairn.toml`. Name the slug, the same one the note will take, and whether it is a company topic
+   ("Company topics" in `rules.md`). If the argument is a queue item, its question is the whole scope. If
    `queue/resume-study-<slug>.md` is open, the scope is what it lists as left. If `study/<slug>/` exists,
    this is a refresher: read the pack and ask what to revisit. Create `study/<slug>/README.md`, or append
    a dated section to the existing one, holding the date and the scope, and `study/<slug>/outputs/` with a
@@ -55,7 +55,7 @@ only; a company topic may also draw on internal ones.
    they have read it and feel ready, or `/cairn:study <slug>` first when the resume item still lists
    ideas. Close the resume item when it lists nothing. Append the hand-off to the pack. Done when the
    list is shown.
-6. **Commit.** Commit and push the vault that holds the pack as "Commit and push" says, with message
+6. **Commit.** Commit and push the vault as "Commit and push" says, with message
    `study: <slug>`, and end with the line Session state rule 3 asks for. Done when the commit lands and
    the line is said.
 

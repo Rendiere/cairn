@@ -1,5 +1,6 @@
 ---
 type: system
+company:
 status: draft
 depends: []
 interviewed: []

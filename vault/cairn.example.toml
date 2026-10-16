@@ -1,9 +1,11 @@
-# A vault's cairn.toml, at its root and committed with it. /cairn:setup writes it.
-# A folder is a cairn vault when it has this file.
-
-# ---- Portable vault ----
+# The vault's cairn.toml, at its root and committed with it. /cairn:setup writes it.
+# A folder is the cairn vault when it has this file.
 
 owner = "Ada"
+
+# The current employer. Omit when there is none. Notes about its systems, projects and people carry
+# company: Acme in their frontmatter.
+company = "Acme"
 
 [cadence.daily]
 enabled = true
@@ -19,8 +21,3 @@ slot = "Fri 10:00"
 enabled = true
 minutes = 45            # 45 or 60
 slot = "first Mon 10:00"
-
-# ---- Company vault: this line only ----
-# The company name lives only here, so it never enters the portable vault's history.
-
-# company = "Acme"

@@ -1,5 +1,6 @@
 ---
 type: project
+company:
 status: draft
 depends: []
 interviewed: []
