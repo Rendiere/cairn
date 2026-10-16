@@ -1,6 +1,7 @@
 ---
 type: project
 status: draft
+depends: []
 interviewed: []
 sources: []
 ---
@@ -15,5 +16,7 @@ sources: []
 ## What I am asked to do
 
 ## Open risks
+
+## Going deeper
 
 ## Sources

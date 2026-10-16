@@ -1,6 +1,7 @@
 ---
 type: person
 status: draft
+depends: []
 interviewed: []
 sources: []
 ---
@@ -11,5 +12,7 @@ sources: []
 ## Positions they have stated
 
 ## Working together
+
+## Going deeper
 
 ## Sources

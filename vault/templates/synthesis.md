@@ -1,7 +1,7 @@
 ---
 type: synthesis
-depends: []
 status: draft
+depends: []
 interviewed: []
 sources: []
 ---
