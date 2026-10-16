@@ -14,8 +14,8 @@ derive them from the type's name.
 
 With one vault, every type lives in the portable vault, in the same folder.
 
-A note is `defensible` when every required heading has an answer and no review error is parked as a queue
-item. Otherwise it is `draft`.
+A note is `defensible` when every required heading has an answer, no review error is parked as a queue
+item, and the owner said yes at its last read-back. Otherwise it is `draft`.
 
 ## Questions
 
@@ -76,8 +76,10 @@ and "What it combines" (synthesis). They feed the note's `depends:` list.
 |---|---|---|
 | `{{title}}` | every template | the topic's readable name |
 | `{{date}}` | `queue.md` | today, `YYYY-MM-DD` |
+
+A queue item's `tags:` frontmatter holds `in-your-kb` when the owner's knowledge base covers the topic.
 | `{{links}}` | `queue.md` | wikilinks to every note the question touches, comma-separated |
-| `{{owner}}` | portable `README.md` | `owner` from the portable vault's `cairn.toml` (setup only) |
+| `{{owner}}` | portable and company `README.md` | `owner` from the portable vault's `cairn.toml` (setup only) |
 | `{{company}}` | company `README.md` | `company` from the company vault's `cairn.toml` (setup only) |
 
 ## Other files in a vault

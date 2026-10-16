@@ -33,9 +33,11 @@ is stated nowhere else; skills and vault files point here instead of repeating i
   (`duckdb-lakehouse`), so several study packs can share it.
 - **Queue item:** one open question, a file in `queue/`, linked from every note it touches. It is closed
   by an interview.
-- **Going deeper:** the heading in a note that lists the open queue items touching it.
-- **Status:** a note is `draft` until its required headings are answered (see `note-types.md`) and no
-  review error is left open; then it is `defensible`: the owner can explain and defend it.
+- **Going deeper:** the heading in a note that lists links to the open queue items touching it. The
+  owner's answers to the "Going deeper" question become those queue items; the heading holds only links.
+- **Status:** a note is `draft` until its required headings are answered (see `note-types.md`), no
+  review error is parked as a queue item, and the owner said yes at its last read-back; then it is
+  `defensible`: the owner can explain and defend it.
 - **Read-back:** showing the owner something they wrote and asking whether it still sounds like them.
 - **Sweep:** the scheduled review that reads recent work, finds topics with no note, and hands the top
   few to study or interview.
@@ -143,7 +145,8 @@ say which and offer `/cairn:setup`; write nothing until setup has run.
 3. Any other sentence Claude adds starts with `[claude]`, or it does not go in.
 4. The owner's answers get grammar fixes only: spelling, punctuation, agreement. Never rephrasing.
 5. No summaries of documents. Insights from documents, in the owner's words.
-6. A topic whose first two questions are unanswered is a queue item, not a note.
+6. A topic is a queue item, not a note, when any required heading among its first two questions has no
+   answer (required headings are in `note-types.md`).
 7. In a portable note, an answer that names the company goes to the transcript only; the heading stays
    empty until the owner re-answers in general terms.
 8. Study packs are Claude's writing and are never notes. Nothing in a pack is marked `[claude]`.
@@ -168,21 +171,28 @@ after the questions.
 
 ## Queue and lock-in
 
-- A queue item goes in the portable vault's `queue/` when every note it touches is portable, else in the
-  active company vault's `queue/`.
-- An interview raises at most two "Going deeper" items. Further ones are dropped, not queued.
+- A queue item goes in the portable vault's `queue/` when every note it touches is portable, in the
+  active company vault's `queue/` when it touches a company note, and in the home vault when it touches
+  no note.
+- Answers to the "Going deeper" question become at most two queue items per interview; further ones are
+  dropped. "Don't know" answers and parked review errors are not capped.
+- A queue item's slug names its question, is unique across all vaults like every slug, and never equals a
+  note's slug. A topic parked at the gate is `learn-<topic-slug>`; a resume item is
+  `resume-<skill>-<slug>`.
 - Queue items are never worked through on their own. One comes back only when a sweep's material touches
   it, or when the owner asks to close it.
 - A review error parked as a queue item keeps the note `draft`.
-- A read-back the owner rejects sets the note to `draft`; the next interview on it asks only the heading
-  that no longer sounds like them.
+- A read-back the owner rejects sets the note to `draft` and names the heading that no longer sounds like
+  them in `resume-interview-<slug>`; the next interview on it asks only the headings that item lists.
 
 ## Session state
 
 1. Every skill creates its output file at its first step and appends to it after every answer or step, so
    stopping at any turn loses nothing already said.
-2. A skill stopped before its end leaves a queue item `resume <skill>: <slug>` naming what is left, unless
-   the output file already says so.
+2. A skill that can be left half-done creates a queue item `resume-<skill>-<slug>` at its first step,
+   listing what is left, updates it after every step, and closes it at its end. The owner can walk away
+   at any turn and the next run picks up from that item. Closing a resume item deletes its file: it is
+   bookkeeping, not a question, and the session's own output file is the record.
 3. Every skill ends with one line: what was written, where, and the next command to run.
 4. Every error the owner sees says what to run next.
 5. Each skill states its time limit and checks it with `date +%H:%M` at the start and after each step.

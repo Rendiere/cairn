@@ -1,18 +1,16 @@
-# cairn's per-machine config. /cairn:setup writes it to ~/.config/cairn/config.toml ($CAIRN_CONFIG overrides).
-# Every skill reads it first. A source not listed under [sources] is skipped by /cairn:sweep.
-
-owner = "Ada"
+# cairn's machine config: what is true of this machine only. /cairn:setup writes it to
+# ~/.config/cairn/config.toml ($CAIRN_CONFIG overrides). Never committed.
+# Owner, cadence and company live in each vault's cairn.toml; see vault/cairn.example.toml.
 
 [vaults]
 portable = "~/brain"
-# Present only when there is an employer. The company vault nests the portable one at general/.
-company = "~/work/brain"
-company_name = "Acme"
 
-[cadence]
-every = "weekly"          # daily | weekly | monthly
-slot = "Fri 10:00"
+# Zero or more, only when there is an employer. At most one has archived = false: the active company vault.
+[[vaults.company]]
+path = "~/work/brain"
+archived = false
 
+# A source not listed here is skipped by /cairn:sweep. {start} is replaced with the window's start date.
 [sources.claude_code]
 profiles = ["~/.claude"]
 
@@ -25,8 +23,8 @@ query = "name contains 'Notes' and mimeType = 'application/vnd.google-apps.docum
 [sources.slack]
 user_id = "U00000000"
 
+# Present means enabled.
 [sources.granola]
-enabled = true
 
 # Plain-text or markdown files modified in the window: Whisper transcripts, exported WhatsApp chats.
 [sources.folders]

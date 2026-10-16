@@ -144,7 +144,7 @@ Verification:
 - For each row in `shared/note-types.md`, `grep -c "^## " vault/templates/<type>.md` equals the number of
   questions.
 - `grep -rn "{{" vault/templates` lists only placeholders named in `shared/note-types.md`.
-- `grep -rn "persons" skills vault shared` returns nothing.
+- `grep -rn "persons" skills vault shared` matches only the setup skill's migration step.
 
 Anti-pattern guards: do not derive folder names by pluralising the type in skill text; always read the
 folder column.
@@ -271,5 +271,5 @@ Verification:
 
 - `claude plugin validate .` passes.
 - `scripts/smoke.sh` passes for both layouts.
-- `grep -rn "\.\./\|persons/\|no note is written" skills shared vault README.md` returns nothing.
+- `grep -rn "\.\./\|no note is written" skills shared vault README.md` returns nothing, and `persons/` appears only in the setup skill's migration step.
 - A re-run of the design-is audit scores principle 8 at 2 or more and no principle at 0.
