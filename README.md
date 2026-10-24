@@ -1,8 +1,10 @@
 # cairn
 
-A Claude Code plugin that helps you understand your work well enough to explain it without notes. You
-study a topic, Claude interviews you on it, and only your own answers go into the note. A scheduled sweep
-reads your recent work and finds the topics you used but have no note on, basics first.
+Agents produce output faster than you can understand it, so you end up owning systems and processes you
+could not explain to a colleague without asking the agent again. cairn is a Claude Code plugin that helps
+you understand your work well enough to explain it without notes. You study a topic, Claude interviews
+you on it, and only your own answers go into the note. At a review slot you pick, you run a sweep that reads
+your recent work and finds the topics you used but have no note on, basics first.
 
 ## Commands
 
@@ -35,8 +37,6 @@ claude plugin marketplace add Rendiere/cairn
 claude plugin install cairn@cairn
 ```
 
-The repo is private for now, so the first command needs your git credentials to have access to it.
-
 Then run `/cairn:setup` in Claude Code. `git` is required, `jq` is needed to read Claude Code sessions,
 and `gh` lets setup create a private GitHub repo for a new vault.
 
@@ -46,3 +46,13 @@ Cairn works in Claude Code only. Codex is not supported.
 
 Load a working copy with `claude --plugin-dir .` and run `/reload-plugins` after edits. Check manifests
 and skill frontmatter with `claude plugin validate .`, and run `scripts/smoke.sh` before a release.
+
+The maintainer's clone must never push an employer's information. In that clone,
+`git config core.hooksPath .githooks` turns on a pre-push hook that runs `scripts/guard-scan.sh`. It
+blocks a push when a commit's files, file names, message, author or committer hold a term listed in
+`.git/info/guard-terms` (untracked, one term per line), and refuses every push while that file is empty.
+`scripts/guard-scan.sh --all` checks the whole history. Contributors do not need the hook.
+
+## Licence
+
+MIT. See `LICENSE`.
