@@ -8,16 +8,6 @@
       "name": "cairn",
       "source": "./",
       "description": "Setup, study, interview and a daily, weekly or monthly sweep for notes in your own words, in one private git vault."
-    },
-    {
-      "name": "cairn-pane",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/Rendiere/cairn.git",
-        "path": "prototypes/desktop-mod/cairn-pane",
-        "ref": "prototype/desktop-mod"
-      },
-      "description": "PROTOTYPE for issue #7: a cairn side pane for Claude Code Desktop, installed from the prototype/desktop-mod branch."
     }
   ],
   "metadata": {

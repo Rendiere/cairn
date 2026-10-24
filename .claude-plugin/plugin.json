@@ -1,10 +1,11 @@
 {
   "name": "cairn",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Study a topic, get interviewed on it so the note is in your own words, and sweep your recent work for topics you have no note on, basics first.",
   "author": {
     "name": "Renier Botha"
   },
   "license": "MIT",
-  "repository": "https://github.com/Rendiere/cairn"
+  "repository": "https://github.com/Rendiere/cairn",
+  "types": "./types/index.d.ts"
 }

@@ -14,8 +14,9 @@ your recent work and finds the topics you used but have no note on, basics first
 | `/cairn:study <topic>` | Teaches one topic in at most 20 minutes: three to five ranked sources and short hands-on steps you run yourself. Leaves a study pack of reading material in the vault. |
 | `/cairn:interview <topic>` | Asks a fixed set of questions for the note's type (concept, system, project, synthesis, person), one at a time, and writes your answers with grammar fixes only. Afterwards reviews the answers against sources. `close <queue-item>` answers one open question. |
 | `/cairn:sweep` | Your daily, weekly or monthly review. Reads the last 1, 7 or 30 days of Claude Code sessions, meeting notes, Slack and transcript folders, ranks uncovered topics by how many others build on them, and turns the top few into open questions, study sessions or interviews. Writes those questions, links between notes, and a dated record. |
+| `/cairn:pane` | Opens a pane beside the chat. At the top, today's read-back quotes the oldest defensible note's one-sentence answer and asks whether it still sounds like you; "no" puts `/cairn:interview` for that note in your prompt. A practice interview on an open question shows how many questions are left and the minutes remaining, and takes an answer, a thinking-aloud note and a confidence rating for each question; its answers are not saved. Below that, a graph of the vault coloured by status, then the open questions and drafts, each with a `/cairn:study` button. The graph and the answer fields need the desktop app; the terminal shows a list. The pane only reads the vault. |
 
-Every command writes as it goes: stop at any point and the next run picks up where you left off.
+Every command but `/cairn:pane` writes as it goes: stop at any point and the next run picks up where you left off.
 
 ## Your vault
 
