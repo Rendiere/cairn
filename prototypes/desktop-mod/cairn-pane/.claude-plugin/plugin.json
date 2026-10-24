@@ -1,0 +1,7 @@
+{
+  "name": "cairn-pane",
+  "version": "0.2.0",
+  "description": "PROTOTYPE (cairn issue #7): a cairn side pane for Claude Code Desktop over the owner's vault, read-only",
+  "types": "./types/index.d.ts",
+  "license": "MIT"
+}
